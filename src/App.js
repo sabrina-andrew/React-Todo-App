@@ -1,21 +1,37 @@
 import React, { Component } from "react";
+import AddTodo from "./AddTodo";
+import TodoList from "./TodoList";
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      currentItemText: "Foo",
+      todos: ["Add a todo", "Remove Todo"]
+    };
+  }
+  resetAll = () => {
+    this.setState({ currentItemText: "", todos: [] });
+  };
+  setText = text => {
+    this.setState({ currentItemText: text });
+  };
+  addNew = text => {
+    const newTodos = [...this.state.todos, text];
+    this.setState({ todos: newTodos });
+  };
   render() {
     return (
       <div>
-        <label>
-          Item:
-          <input type="text" />
-        </label>
-        <button>Add</button>
+        <AddTodo
+          text={this.state.currentItemText}
+          setText={this.setText}
+          addNew={this.addNew}
+        />
 
-        <ul>
-          <li>Item 1</li>
-          <li>Item 2</li>
-        </ul>
+        <TodoList todos={this.state.todos} />
 
-        <button>Reset All</button>
+        <button onClick={this.resetAll}>Reset All</button>
       </div>
     );
   }
